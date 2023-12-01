@@ -12,6 +12,31 @@
 
 using namespace std;
 
+bool Date::operator<(Date& rhs) {
+    if (year != rhs.year) {
+        return year < rhs.year;
+    }
+    if (month != rhs.month) {
+        return month < rhs.month;
+    }
+    if (day != rhs.day) {
+        return day < rhs.day;
+    }
+    if (hour != rhs.hour) {
+        return hour < rhs.hour;
+    }
+    return minute < rhs.minute;
+}
+
+// bool insert(UFOSighting& node, UFOSighting& data) {
+//    example use of the Date comparison operator!
+//    if (data.date < node->date) {
+//        insert (node->left, data);
+//    }
+//    else {
+//        insert (node->right, data);
+//    }
+
 vector<UFOSighting> parseJSON(const string& jsonFileName) {
     //read in all siting and create Sighting add to sightings vector
     vector<UFOSighting> sightings;
@@ -62,15 +87,22 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
                         sighting.description = value.substr(1, value.size() - 3);
                     } else if (key == "\"Year\"") {
                         sighting.year = stoi(value);
+                        sighting.date.year=sighting.year;
                     } else if (key == "\"Month\"") {
                         sighting.month = stoi(value);
+                        sighting.date.month=sighting.month;
                     } else if (key == "\"Day\"") {
                         sighting.day = stoi(value);
+                        sighting.date.day=sighting.day;
                     } else if (key == "\"Hour\"") {
                         sighting.hour = stoi(value);
+                        sighting.date.hour=sighting.hour;
                     } else if (key == "\"Minute\"") {
                         sighting.minute = stoi(value);
-                    } else if (key == "\"Documented Year\"") {
+                        sighting.date.minute=sighting.minute;
+                    }
+
+                    else if (key == "\"Documented Year\"") {
                         sighting.docyear = stoi(value);
                     } else if (key == "\"Documented Month\"") {
                         sighting.docmonth = stoi(value);
