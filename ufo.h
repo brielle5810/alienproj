@@ -10,7 +10,15 @@
 #include <string>
 using namespace std;
 
+struct Date {
+    int year;
+    int month;
+    int day;
+    int hour;
+    int minute;
+    bool operator<(Date& rhs);
 
+};
 struct UFOSighting {
     string country;
     string city;
@@ -28,6 +36,11 @@ struct UFOSighting {
     int docday;
     int hour;
     int minute;
+    UFOSighting *parent;
+    UFOSighting *left;
+    UFOSighting *right;
+    int color;
+    Date date;
 
     /*"Dates": {
       "Sighted": {
@@ -50,6 +63,7 @@ struct UFOSighting {
      *
      */
 };
+
 vector<UFOSighting> parseJSON(const string& jsonFileName);
 
 #endif //SIGHITNG_UFO_H
