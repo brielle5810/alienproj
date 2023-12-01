@@ -77,19 +77,21 @@ public:
         int distance;
         return distance;
     }
-    int getYear(unordered_map<string,int> ufo, string sighting){
+    int getYear(string sighting){
         int ufoYear;
+        int index = hash(sighting);
         for (auto &i : hashTable[index]) {
-            if (i.key == name) {
-                ufoYear = i.value; 
-                // there might be some number conversions we have to do because we have up to the second
+            if (i.key == sighting) {
+               ufoYear = i.value;
             }
         }
         return ufoYear;
     }
     void print(){
-        for(auto &it : hashTable){
-            cout<<"Sighting location: "<<it.first<<"\nSighting date: "<<it.second<<endl;
+        for(auto &index : hashTable){
+            for(auto &it : index){
+            cout<<"Sighting location: "<<it.key<<"\nSighting date: "<<it.value<<endl;
+        }
         }
     }
 
