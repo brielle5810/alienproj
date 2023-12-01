@@ -5,7 +5,6 @@ using namespace std;
 // Project 3b for COP3530 Ana Garcia Andrea Mueller and Brielle Stokes
 // data analysis
 
-
 class Hash{
 
 private:
@@ -16,29 +15,28 @@ private:
 
         string key = "";
         int value = 0;
-        int index = 0;
         hashNode(){
             key = "";
             value = 0;
-            index = 0;
+            
         }
         hashNode(string & k, int v){
             key = k;
             value = v;
-            index = 0;
+            
         }
         ~hashNode();
 
     };
     vector<vector<hashNode>> hashTable;
-    // need to create your own hash map you cant use unordered map
     // location of the sighting and year
+
 public:
     Hash(): hashTable(capacity){}
     int hash(string s){
         return s.length()%capacity;
     }
-    void resize(vector<vector<hashNode>> &vector){
+    void resize(vector<vector<hashNode>> &vector){ // EDIT NEEDED make vector capacity*=2 before adding to it? 
          ::vector<::vector<hashNode>> table;
          for( auto &i : vector){
              for(auto &node :i){
@@ -63,7 +61,6 @@ public:
         }
 
     }
-    void deleteUFO(){}
     bool findUFO(string name) {
         int index = hash(name);
         for (auto &i : hashTable[index]) {
@@ -73,11 +70,12 @@ public:
         }
         return false;
     }
-    int getDistance(string location){
+    int getDistance(string location){// NOT IMPLEMENTED
         int distance;
+        
         return distance;
     }
-    int getYear(string sighting){
+    int getYear(string sighting){ // EDIT to make the time more specific ( minutes hours days months etc)
         int ufoYear;
         int index = hash(sighting);
         for (auto &i : hashTable[index]) {
