@@ -36,6 +36,7 @@ struct UFOSighting {
     int docday;
     int hour;
     int minute;
+    UFOSighting(); //default constructor
     UFOSighting *parent;
     UFOSighting *left;
     UFOSighting *right;
