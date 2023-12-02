@@ -20,6 +20,7 @@ public:
     void heapifyDown(int ind);
     void maxHeapify(vector<UFOSighting> sightings);
     UFOSighting closestSighting(string city, string state);
+    vector<UFOSighting> stateList(string state);
 
 };
 

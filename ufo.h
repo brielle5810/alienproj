@@ -31,6 +31,7 @@ struct UFOSighting {
     int day;
     string duration;
     string description;
+    bool operator<(UFOSighting& rhs);
     int docyear;
     int docmonth;
     int docday;

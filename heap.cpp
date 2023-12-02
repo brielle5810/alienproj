@@ -1,6 +1,7 @@
 //
 // Created by B on 12/1/2023.
 //
+#include <algorithm>
 #include "heap.h"
 
 
@@ -47,26 +48,28 @@ void maxheap::maxHeapify(vector<UFOSighting> sightings){
 
 
 
+
 UFOSighting maxheap::closestSighting(string city, string state){
     UFOSighting closestSightingCity = UFOSighting();
     closestSightingCity.city = "N/A";
     closestSightingCity.state = state;
     closestSightingCity.country ="N/A";
-    closestSightingCity.date.year = 0;
-    closestSightingCity.date.month = 0;
-    closestSightingCity.date.day = 0;
-    closestSightingCity.date.hour = 0;
-    closestSightingCity.date.minute = 0;
+    closestSightingCity.date.year = INT_MIN;
+    closestSightingCity.date.month = INT_MIN;
+    closestSightingCity.date.day = INT_MIN;
+    closestSightingCity.date.hour = INT_MIN;
+    closestSightingCity.date.minute = INT_MIN;
 
     UFOSighting closestSightingState = UFOSighting();
     closestSightingState.city = city;
     closestSightingState.state = "N/A";
     closestSightingState.country ="N/A";
-    closestSightingState.date.year = 0;
-    closestSightingState.date.month = 0;
-    closestSightingState.date.day = 0;
-    closestSightingState.date.hour = 0;
-    closestSightingState.date.minute = 0;
+    closestSightingState.date.year = INT_MIN;
+    closestSightingState.date.month = INT_MIN;
+    closestSightingState.date.day = INT_MIN;
+    closestSightingState.date.hour = INT_MIN;
+    closestSightingState.date.minute = INT_MIN;
+
 
     for (UFOSighting& sighting : heap) {
         // Check if the sighting is in the target city or state
@@ -86,4 +89,14 @@ UFOSighting maxheap::closestSighting(string city, string state){
         return closestSightingState;
     }
 
+}
+vector<UFOSighting> maxheap::stateList(string state){
+    vector<UFOSighting> stateList;
+    for (UFOSighting& sighting : heap) {
+        if (sighting.state == state) {
+            stateList.push_back(sighting);
+        }
+    }
+    sort(stateList.begin(), stateList.end());
+    return stateList;
 }

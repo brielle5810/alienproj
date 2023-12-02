@@ -4,6 +4,7 @@
 #include <limits>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 #include "heap.h"
 #include <unordered_map>
@@ -78,13 +79,15 @@ int main() {
                 //to implement next: CHECK FOR NEWLINE CHARS FOR CITY/STATE
                 cout << "  Enter city: ";
                 cin >> city;
+
                 //CHECK VALID STATE
                 cout << "  Enter a state or state abbreviation: ";
-                cin>> state;
-                while (true){
-                    if (stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) {
-                        if (stateMap.find(state) != stateMap.end()){
-                            state=stateMap[state];
+                cin >> state;
+                while (true) {
+                    if ((stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) &&
+                        state.length() > 0) {
+                        if (stateMap.find(state) != stateMap.end()) {
+                            state = stateMap[state];
                         }
                         break;
                     } else {
@@ -94,7 +97,6 @@ int main() {
                     }
                     cin >> state;
                 }
-
 
                 //case 1 functionality
                 cout << "  The closest UFO sighting was on:                   \n";
@@ -103,8 +105,13 @@ int main() {
                 if (UFOHeap.closestSighting(city, state).date.year == 0) {
                     break;
                 }
-
-                cout << "  " << UFOHeap.closestSighting(city, state).date.month << "/" << UFOHeap.closestSighting(city, state).date.day << "/" << UFOHeap.closestSighting(city, state).date.year << " at " << UFOHeap.closestSighting(city, state).date.hour << ":" << UFOHeap.closestSighting(city, state).date.minute << " in " << UFOHeap.closestSighting(city, state).city << ", " << UFOHeap.closestSighting(city, state).state << ", " << UFOHeap.closestSighting(city, state).country << "              \n";
+                cout << "  " << UFOHeap.closestSighting(city, state).date.month << "/"
+                     << UFOHeap.closestSighting(city, state).date.day << "/"
+                     << UFOHeap.closestSighting(city, state).date.year << " at "
+                     << UFOHeap.closestSighting(city, state).date.hour << ":"
+                     << UFOHeap.closestSighting(city, state).date.minute << " in "
+                     << UFOHeap.closestSighting(city, state).city << ", " << UFOHeap.closestSighting(city, state).state
+                     << ", " << UFOHeap.closestSighting(city, state).country << "              \n";
                 break;
 
             case 2:
@@ -112,16 +119,20 @@ int main() {
                 cout << "  The most recent UFO sighting was on:               \n";
                 //HEAP
                 cout << "  Using a MaxHeap:                                   \n";
-                cout << "  " << UFOHeap.getMax().date.month << "/" << UFOHeap.getMax().date.day << "/" << UFOHeap.getMax().date.year << " at " << UFOHeap.getMax().date.hour << ":" << UFOHeap.getMax().date.minute << " in " << UFOHeap.getMax().city << ", " << UFOHeap.getMax().state << ", " << UFOHeap.getMax().country << "              \n";
+                cout << "  " << UFOHeap.getMax().date.month << "/" << UFOHeap.getMax().date.day << "/"
+                     << UFOHeap.getMax().date.year << " at " << UFOHeap.getMax().date.hour << ":"
+                     << UFOHeap.getMax().date.minute << " in " << UFOHeap.getMax().city << ", "
+                     << UFOHeap.getMax().state << ", " << UFOHeap.getMax().country << "              \n";
                 break;
 
             case 3:
                 cout << "  Enter a state or state abbreviation: ";
-                cin>> state;
-                while (true){
-                    if (stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) {
-                        if (stateMap.find(state) != stateMap.end()){
-                            state=stateMap[state];
+                cin >> state;
+                while (true) {
+                    if ((stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) &&
+                        state.length() > 0) {
+                        if (stateMap.find(state) != stateMap.end()) {
+                            state = stateMap[state];
                         }
                         break;
                     } else {
@@ -131,9 +142,17 @@ int main() {
                     }
                     cin >> state;
                 }
-               //case 3 functionality
+                //case 3 functionality
+                cout << "  The list of sightings in " << state << " is:        \n";
+                //HEAP
+                cout << "  Using a MaxHeap:                                   \n";
+                cout << "  The UFO sightings in " << state << " are:              \n";
+                for (auto &sighting : UFOHeap.stateList(state)) {
+                    cout << "  " << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year << " at "
+                         << sighting.date.hour << ":" << sighting.date.minute << " in " << sighting.city << ", "
+                         << sighting.state << ", " << sighting.country << "              \n";
+                }
 
-                break;
 
             case 4:
                 cout << "  Exiting the program.\n";
@@ -144,7 +163,6 @@ int main() {
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
-
 
         }
 

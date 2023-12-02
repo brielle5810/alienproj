@@ -11,21 +11,25 @@
 #include <sstream>
 
 using namespace std;
+bool UFOSighting::operator<(UFOSighting& rhs) {
+    return this->date < rhs.date;
+}
+
 
 bool Date::operator<(Date& rhs) {
     if (year != rhs.year) {
-        return year < rhs.year;
+        return this->year < rhs.year;
     }
     if (month != rhs.month) {
-        return month < rhs.month;
+        return this->month < rhs.month;
     }
     if (day != rhs.day) {
-        return day < rhs.day;
+        return this->day < rhs.day;
     }
     if (hour != rhs.hour) {
-        return hour < rhs.hour;
+        return this->hour < rhs.hour;
     }
-    return minute < rhs.minute;
+    return this->minute < rhs.minute;
 }
 
 UFOSighting::UFOSighting() {
