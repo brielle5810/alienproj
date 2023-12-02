@@ -8,6 +8,7 @@ using namespace std;
 #include "heap.h"
 #include <unordered_map>
 #include <unordered_set>
+#include "RedBlackTree.h"
 
 int main() {
     string city, state;
@@ -46,9 +47,18 @@ int main() {
             "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
     };
-    vector<UFOSighting> sightings= parseJSON("ufo_sightings.json");
+    vector<UFOSighting> sightings= parseJSON("C:\\Users\\anili\\CLionProjects\\8\\ProgQuiz_9\\Project3\\ufo_sightings.json");
+
+
     maxheap UFOHeap;
     UFOHeap.maxHeapify(sightings);
+
+    RedBlackTree UFOTree;
+    for (const auto& sighting : sightings) {
+
+        UFOTree.insert(sighting);
+    }
+
 
     //printMenuBorder();
     while (true) {
@@ -81,6 +91,7 @@ int main() {
                 //CHECK VALID STATE
                 cout << "  Enter a state or state abbreviation: ";
                 cin>> state;
+
                 while (true){
                     if (stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) {
                         if (stateMap.find(state) != stateMap.end()){
@@ -105,17 +116,31 @@ int main() {
                 }
 
                 cout << "  " << UFOHeap.closestSighting(city, state).date.month << "/" << UFOHeap.closestSighting(city, state).date.day << "/" << UFOHeap.closestSighting(city, state).date.year << " at " << UFOHeap.closestSighting(city, state).date.hour << ":" << UFOHeap.closestSighting(city, state).date.minute << " in " << UFOHeap.closestSighting(city, state).city << ", " << UFOHeap.closestSighting(city, state).state << ", " << UFOHeap.closestSighting(city, state).country << "              \n";
+
+                //TREE
+                cout << "  Using a RedBlackTree:                              \n";
+                UFOTree.closestSighting(city,state);
+                if(UFOTree.closestSighting(city,state).date.year == 0){
+                    break;
+                }
+                cout << "  " << UFOTree.closestSighting(city,state).date.month << "/" << UFOTree.closestSighting(city,state).date.day << "/" << UFOTree.closestSighting(city, state).date.year << " at " << UFOTree.closestSighting(city, state).date.hour << ":" << UFOTree.closestSighting(city, state).date.minute << " in " << UFOTree.closestSighting(city, state).city << ", " << UFOTree.closestSighting(city, state).state << ", " << UFOTree.closestSighting(city, state).country << "               \n";
                 break;
 
             case 2:
                 //case 2 functionality
                 cout << "  The most recent UFO sighting was on:               \n";
                 //HEAP
+
                 cout << "  Using a MaxHeap:                                   \n";
                 cout << "  " << UFOHeap.getMax().date.month << "/" << UFOHeap.getMax().date.day << "/" << UFOHeap.getMax().date.year << " at " << UFOHeap.getMax().date.hour << ":" << UFOHeap.getMax().date.minute << " in " << UFOHeap.getMax().city << ", " << UFOHeap.getMax().state << ", " << UFOHeap.getMax().country << "              \n";
+
+                cout << "Using a RedBlackTree:                                \n";
+                cout << "  " << UFOTree.mostRecentSighting().date.month << "/" << UFOTree.mostRecentSighting().date.day << "/" << UFOTree.mostRecentSighting().date.year << " at " << UFOTree.mostRecentSighting().date.hour << ":" << UFOTree.mostRecentSighting().date.minute << " in " << UFOTree.mostRecentSighting().city << ", " << UFOTree.mostRecentSighting().state << ", " << UFOTree.mostRecentSighting().country << "              \n";
+
                 break;
 
             case 3:
+
                 cout << "  Enter a state or state abbreviation: ";
                 cin>> state;
                 while (true){
@@ -131,9 +156,20 @@ int main() {
                     }
                     cin >> state;
                 }
-               //case 3 functionality
 
+                //REDBLACKTREE
+                UFOTree.sightingsInState(state);
+                if (UFOTree.sightingsInState(state).empty()) {
+                    cout << "No sightings found in " << state << endl;
+                } else {
+                    for (const auto& sighting : UFOTree.sightingsInState(state)) {
+                        cout << "Sighting in " << sighting.city << ", " << state << " on "
+                             << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year
+                             << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
+                    }
+                }
                 break;
+
 
             case 4:
                 cout << "  Exiting the program.\n";
