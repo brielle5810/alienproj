@@ -28,6 +28,11 @@ bool Date::operator<(Date& rhs) {
     return minute < rhs.minute;
 }
 
+UFOSighting::UFOSighting() {
+    city="NULL";
+    country="NULL";
+    state="NULL";
+}
 // bool insert(UFOSighting& node, UFOSighting& data) {
 //    example use of the Date comparison operator!
 //    if (data.date < node->date) {
@@ -118,8 +123,9 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
 
     file.close();
     //test that it works
-    for (int i=0;i<100;i++){
-        cout <<i + 1<<". "<< sightings[i].city << endl;
-    }
+//    for (int i=0;i<10;i++){
+//        cout <<i + 1<<". "<< sightings[i].city << " at "<< sightings[i].date.month<<"/"<<sightings[i].date.day<<"/"<<sightings[i].date.year<<endl;
+//        cout<<"At time: "<< sightings[i].date.hour<<":"<<sightings[i].date.minute<<endl;
+//    }
     return sightings;
 }
