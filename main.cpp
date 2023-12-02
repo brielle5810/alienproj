@@ -47,7 +47,7 @@ int main() {
             "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
     };
-    vector<UFOSighting> sightings= parseJSON("C:\\Users\\anili\\CLionProjects\\8\\ProgQuiz_9\\Project3\\ufo_sightings.json");
+    vector<UFOSighting> sightings= parseJSON("ufo_sightings.json");
 
 
     maxheap UFOHeap;
