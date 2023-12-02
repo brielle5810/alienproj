@@ -12,7 +12,7 @@
 
 using namespace std;
 
-bool Date::operator<(Date& rhs) {
+bool Date::operator<(const Date& rhs) const { //ana- made a change to this, made const because wasn't working in comparison
     if (year != rhs.year) {
         return year < rhs.year;
     }
@@ -29,6 +29,7 @@ bool Date::operator<(Date& rhs) {
 }
 
 UFOSighting::UFOSighting() {
+
     city="NULL";
     country="NULL";
     state="NULL";
