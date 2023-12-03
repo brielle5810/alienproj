@@ -113,16 +113,15 @@ public:
         }
 
     }
-    UFOSighting mostRecent(){
+   UFOSighting mostRecent(){
         vector<UFOSighting> recents;
-        hashNode *mostRecent = hashTable.front().front();
+        hashNode *mostRecent;
         for(auto &vector : hashTable){
             for(auto& node : vector){
-                if(node->key > mostRecent->key){
+                if(node->sighting.date > mostRecent->sighting.date){
                     mostRecent = node;
                 }
             }
-            // if current bucket is more than the mostRecent then the most recent = the current vector
         }
         return mostRecent->sighting;
     }
