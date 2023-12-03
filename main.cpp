@@ -140,6 +140,7 @@ int main() {
                 }
                 cout << "  " << UFOTree.closestSighting(city,state).date.month << "/" << UFOTree.closestSighting(city,state).date.day << "/" << UFOTree.closestSighting(city, state).date.year << " at " << UFOTree.closestSighting(city, state).date.hour << ":" << UFOTree.closestSighting(city, state).date.minute << " in " << UFOTree.closestSighting(city, state).city << ", " << UFOTree.closestSighting(city, state).state << ", " << UFOTree.closestSighting(city, state).country << "               \n";
                 // hashtable 
+                
                 cout<<"Using Hash Table: "<<endl;
                 UFOTable.closestSighting(city, state);
                 if(UFOTable.closestSighting(city, state).date.year == 0){
@@ -168,7 +169,13 @@ int main() {
 
                 cout << "Using a RedBlackTree:                                \n";
                 cout << "  " << UFOTree.mostRecentSighting().date.month << "/" << UFOTree.mostRecentSighting().date.day << "/" << UFOTree.mostRecentSighting().date.year << " at " << UFOTree.mostRecentSighting().date.hour << ":" << UFOTree.mostRecentSighting().date.minute << " in " << UFOTree.mostRecentSighting().city << ", " << UFOTree.mostRecentSighting().state << ", " << UFOTree.mostRecentSighting().country << "              \n";
-
+                // Hashtable 
+                cout<<"Using HashTable: ";
+                cout<<" "<< UFOTable.mostRecent().date.month<<"/" <<UFOTable.mostRecent().date.day
+                    <<"/"<<UFOTable.mostRecent().date.year<<" at "<<UFOTable.mostRecent.date.hour
+                    <<":"<<UFOTable.mostRecent().date.minute<<" in "<<UFOTable.mostRecent().city<<", "
+                    <<UFOTable.mostRecent().state<<", "<<UFOTable.mostRecent().country<<"              /n";
+                    
                 break;
 
             case 3:
