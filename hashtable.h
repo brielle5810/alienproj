@@ -36,16 +36,16 @@ public:
     int hash(string s){
         return s.length()%capacity;
     }
-    void resize(vector<vector<hashNode>> &vector){ // EDIT NEEDED make vector capacity*=2 before adding to it? 
-         ::vector<::vector<hashNode>> table;
-         for( auto &i : vector){
-             for(auto &node :i){
-                 int index = hash(node.key);
-                 table[index].push_back(node);
-             }
-         }
-        capacity*=2;
-        vector = table;
+    void resize(vector<vector<hashNode>>& hashTable) {
+        capacity = capacity * 2;
+        vector<vector<hashNode>> newTable(capacity);
+        for (auto& row : hashTable) {
+            for (auto& node : row) {
+                int index = hash(node.key);
+                newTable[index].push_back(node);
+            }
+        }
+        hashTable = newTable;
     }
     void insert(string name, int year){
         // create new node to be put in the array "table"
