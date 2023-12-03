@@ -171,12 +171,11 @@ int main() {
                 cout << "  " << UFOTree.mostRecentSighting().date.month << "/" << UFOTree.mostRecentSighting().date.day << "/" << UFOTree.mostRecentSighting().date.year << " at " << UFOTree.mostRecentSighting().date.hour << ":" << UFOTree.mostRecentSighting().date.minute << " in " << UFOTree.mostRecentSighting().city << ", " << UFOTree.mostRecentSighting().state << ", " << UFOTree.mostRecentSighting().country << "              \n";
                 // Hashtable 
                 cout<<"Using HashTable: "<<endl;
-                for(auto &i : UFOTable.mostRecent()) {
-                    cout << "  " << i.date.month << "/" << i.date.day
-                         << "/" << i.date.year << " at " << i.date.hour
-                         << ":" << i.date.minute << " in " << i.city << ", "
-                         << i.state << ", " << i.country << "              \n";
-                }
+                
+                 cout << "  " << UFOTable.mostRecent().date.month << "/" << UFOTable.mostRecent().date.day
+                << "/" << UFOTable.mostRecent().date.year << " at " << UFOTable.mostRecent().date.hour
+                << ":" << UFOTable.mostRecent().date.minute << " in " << UFOTable.mostRecent().city << ", "
+                << UFOTable.mostRecent().state << ", " << UFOTable.mostRecent().country << "              \n";
                     
                 break;
 
