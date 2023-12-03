@@ -124,7 +124,6 @@ int main() {
                      << UFOHeap.closestSighting(city, state).date.minute << " in "
                      << UFOHeap.closestSighting(city, state).city << ", " << UFOHeap.closestSighting(city, state).state
                      << ", " << UFOHeap.closestSighting(city, state).country << "              \n";
-                cout << "  " << UFOHeap.closestSighting(city, state).date.month << "/" << UFOHeap.closestSighting(city, state).date.day << "/" << UFOHeap.closestSighting(city, state).date.year << " at " << UFOHeap.closestSighting(city, state).date.hour << ":" << UFOHeap.closestSighting(city, state).date.minute << " in " << UFOHeap.closestSighting(city, state).city << ", " << UFOHeap.closestSighting(city, state).state << ", " << UFOHeap.closestSighting(city, state).country << "              \n";
 
                 //TREE
                 cout << "  Using a RedBlackTree:                              \n";
@@ -145,7 +144,6 @@ int main() {
                      << UFOHeap.getMax().date.year << " at " << UFOHeap.getMax().date.hour << ":"
                      << UFOHeap.getMax().date.minute << " in " << UFOHeap.getMax().city << ", "
                      << UFOHeap.getMax().state << ", " << UFOHeap.getMax().country << "              \n";
-                cout << "  " << UFOHeap.getMax().date.month << "/" << UFOHeap.getMax().date.day << "/" << UFOHeap.getMax().date.year << " at " << UFOHeap.getMax().date.hour << ":" << UFOHeap.getMax().date.minute << " in " << UFOHeap.getMax().city << ", " << UFOHeap.getMax().state << ", " << UFOHeap.getMax().country << "              \n";
 
                 cout << "Using a RedBlackTree:                                \n";
                 cout << "  " << UFOTree.mostRecentSighting().date.month << "/" << UFOTree.mostRecentSighting().date.day << "/" << UFOTree.mostRecentSighting().date.year << " at " << UFOTree.mostRecentSighting().date.hour << ":" << UFOTree.mostRecentSighting().date.minute << " in " << UFOTree.mostRecentSighting().city << ", " << UFOTree.mostRecentSighting().state << ", " << UFOTree.mostRecentSighting().country << "              \n";
@@ -171,18 +169,18 @@ int main() {
                     cin >> state;
                 }
                 //case 3 functionality
-                cout << "  The list of sightings in " << state << " is:        \n";
+
                 //HEAP
-                cout << "  Using a MaxHeap:                                   \n";
                 cout << "  The UFO sightings in " << state << " are:              \n";
+                cout << "  Using a MaxHeap:                                   \n";
                 for (auto &sighting : UFOHeap.stateList(state)) {
                     cout << "  " << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year << " at "
                          << sighting.date.hour << ":" << sighting.date.minute << " in " << sighting.city << ", "
                          << sighting.state << ", " << sighting.country << "              \n";
                 }
 
-
                 //REDBLACKTREE
+                cout << "  Using a RedBlackTree:                                   \n";
                 UFOTree.sightingsInState(state);
                 if (UFOTree.sightingsInState(state).empty()) {
                     cout << "No sightings found in " << state << endl;
