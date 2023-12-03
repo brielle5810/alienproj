@@ -16,7 +16,10 @@ struct Date {
     int day;
     int hour;
     int minute;
-    bool operator<(Date& rhs);
+    bool operator<(const Date& rhs) const;
+    bool operator>(const Date& rhs) const { // ana- added this too
+        return !(*this < rhs);
+    }
 
 };
 struct UFOSighting {
@@ -43,6 +46,9 @@ struct UFOSighting {
     UFOSighting *right;
     int color;
     Date date;
+    bool operator<(const UFOSighting& rhs) const {
+        return date < rhs.date;
+    }
 
     /*"Dates": {
       "Sighted": {

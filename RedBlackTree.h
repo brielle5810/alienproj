@@ -10,6 +10,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "ufo.h"
+#include <cmath>
+
 
 using namespace std;
 
@@ -28,13 +31,14 @@ using namespace std;
 enum Color{RED, BLACK};
 
 struct Node{
-    string ufo;
-    int data;
+    UFOSighting sighting;
+    //string ufo;
+    //int data;
     bool color;
     Node* left;
     Node* right;
     Node* parent;
-    Node(string ufo, int data) : ufo(ufo), data(data), color(RED), left(nullptr), right(nullptr), parent(nullptr){}
+    Node(UFOSighting sighting) : sighting(sighting), color(RED), left(nullptr), right(nullptr), parent(nullptr){}
 };
 
 class RedBlackTree{
@@ -44,12 +48,20 @@ private:
     void rotateRight(Node *&);
     void fixInsertion(Node *&);
     Node* insertHelp(Node *&, Node*&);
-    void inorderHelper(Node *&, vector<string>&);
+    void inorderHelper(Node *&, vector<UFOSighting>&) const;
+    void closestSightingByStateHelper(Node *node, const string &state, UFOSighting &closest) const;
+    Node* mostRecentSightingHelper(Node *) const;
+    void sightingsInStateHelper(Node *, const string &, vector<UFOSighting> &) const;
 
 public:
     RedBlackTree() : root(nullptr){}
-    void insert(string ufo, int data);
-    vector<string> inorderTraversal();
+    void insert(UFOSighting sighting);
+    UFOSighting closestSighting(string &city, string &state);
+    UFOSighting mostRecentSighting();
+    vector<UFOSighting> sightingsInState(string &state);
+
+
+
 };
 
 void RedBlackTree::rotateLeft(Node *&ptr) {
@@ -172,38 +184,76 @@ void RedBlackTree::fixInsertion(Node *&node) {
 }
 
 Node *RedBlackTree::insertHelp(Node *&root, Node *&node) {
-    if (root == nullptr){
+    //sorted based on date
+    if (root == nullptr) {
         return node;
     }
-    if(node -> data < root -> data){
-        root-> left = insertHelp(root-> left, node);
-        root -> left -> parent = root;
-    } else if (node -> data > root -> data){
-        root -> right = insertHelp(root->right, node);
-        root -> right -> parent = root;
+
+    // Assuming UFOSighting has an operator< defined based on its date
+    if (node->sighting < root->sighting) {
+        root->left = insertHelp(root->left, node);
+        root->left->parent = root;
+    } else {
+        root->right = insertHelp(root->right, node);
+        root->right->parent = root;
     }
+
     return root;
 }
 
-void RedBlackTree::insert(string ufo, int data) {
-    Node *node = new Node(ufo, data);
+void RedBlackTree::insert(UFOSighting sighting) {
+    Node *node = new Node(sighting);
     root = insertHelp(root, node);
     fixInsertion(node);
 
 }
 
-void RedBlackTree::inorderHelper(Node *&node, vector<string> &UFOs) {
-    if (node == nullptr){
-        return;
+
+Node *RedBlackTree::mostRecentSightingHelper(Node *node) const {
+    if (node == nullptr) return nullptr;
+    Node *current = node;
+    while (current->right != nullptr) {
+        current = current->right;
     }
-    inorderHelper(node->left, UFOs);
-    UFOs.push_back(node->ufo);
-    inorderHelper(node-> right, UFOs);
+    return current;
 }
 
-vector<string> RedBlackTree::inorderTraversal() {
-    vector<string> UFOs;
-    inorderHelper(root, UFOs);
-    return UFOs;
+void RedBlackTree::sightingsInStateHelper(Node *node, const string &state, vector<UFOSighting> &sightings) const {
+    if (node == nullptr) return;
+    if (node->sighting.state == state) sightings.push_back(node->sighting);
+    sightingsInStateHelper(node->left, state, sightings);
+    sightingsInStateHelper(node->right, state, sightings);
 
+}
+
+
+UFOSighting RedBlackTree::mostRecentSighting() {
+    return mostRecentSightingHelper(root)->sighting;
+}
+
+vector<UFOSighting> RedBlackTree::sightingsInState(string &state) {
+    vector<UFOSighting> sightings;
+    sightingsInStateHelper(root, state, sightings);
+    return sightings;
+}
+
+UFOSighting RedBlackTree::closestSighting(string &city, string &state) {
+    UFOSighting closest;
+    closest.date.year = 0;  // Initialize with a default value indicating no sighting found yet
+
+    closestSightingByStateHelper(root, state, closest);
+    return closest;
+}
+
+void RedBlackTree::closestSightingByStateHelper(Node *node, const string &state, UFOSighting &closest) const {
+    if (node == nullptr) return;
+
+    // Check if the node's sighting is in the target state and more recent than the current closest
+    if (node->sighting.state == state && (closest.date.year == 0 || node->sighting.date > closest.date)) {
+        closest = node->sighting;
+    }
+
+    // Recursively check the left and right subtrees
+    closestSightingByStateHelper(node->left, state, closest);
+    closestSightingByStateHelper(node->right, state, closest);
 }
