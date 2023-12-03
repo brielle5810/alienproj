@@ -1,4 +1,4 @@
-
+#pragma once;
 #include <iostream>
 #include "vector"
 #include "ufo.h"
@@ -29,6 +29,7 @@ private:
 
     };
     vector<vector<hashNode>> hashTable;
+
     // need to create your own hash map you cant use unordered map
     // location of the sighting and date
 public:
@@ -87,14 +88,18 @@ public:
 
         return closest;
     }
-    vector<UFOSighting> mostRecentSighting(){
+    UFOSighting mostRecent(){
         vector<UFOSighting> recents;
-        vector<hashNode> mostRecent = hashTable.back();
-        for( auto &i : mostRecent){
-            // if there is a tie then what
-            recents.push_back(i.sighting);
+        hashNode mostRecent = hashTable.front().front();
+        for(auto &vector : hashTable){
+            for(auto& node : vector){
+                if(node.key > mostRecent.key){
+                    mostRecent = node;
+                }
+            }
+            // if current bucket is more than the mostRecent then the most recent = the current vector
         }
-        return recents;
+        return mostRecent.sighting;
     }
 
     vector<UFOSighting> ListofSightings(string &state){
@@ -116,3 +121,4 @@ public:
         }
     }
 };
+
