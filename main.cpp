@@ -10,6 +10,7 @@ using namespace std;
 #include <unordered_map>
 #include <unordered_set>
 #include "RedBlackTree.h"
+#include "hashtable.h"
 
 int main() {
     string city, state;
@@ -58,6 +59,12 @@ int main() {
     for (const auto& sighting : sightings) {
 
         UFOTree.insert(sighting);
+    }
+    
+    Hash UFOTable;
+    for (const auto& sighting : sightings) {
+
+        UFOTable.insert(sighting);
     }
 
 
@@ -132,6 +139,20 @@ int main() {
                     break;
                 }
                 cout << "  " << UFOTree.closestSighting(city,state).date.month << "/" << UFOTree.closestSighting(city,state).date.day << "/" << UFOTree.closestSighting(city, state).date.year << " at " << UFOTree.closestSighting(city, state).date.hour << ":" << UFOTree.closestSighting(city, state).date.minute << " in " << UFOTree.closestSighting(city, state).city << ", " << UFOTree.closestSighting(city, state).state << ", " << UFOTree.closestSighting(city, state).country << "               \n";
+                // hashtable 
+                cout<<"Using Hash Table: "<<endl;
+                UFOTable.closestSighting(city, state);
+                if(UFOTable.closestSighting(city, state).date.year == 0){
+                    break;
+                }
+                cout<<" "<< UFOTable.closestSighting(city, state).date.month<<"/"
+                <<UFOTable.closestSighting(city,state).date.day<<"/"
+                <<UFOTable.closestSighting(city,state).date.year<<" at"
+                <<UFOTable.closestSighting(city,state).date.hour<<":"
+                <<UFOTable.closestSighting(city,state).date.minute<<" in "
+                <<UFOTable.closestSighting(city,state).city<<", "
+                <<UFOTable.closestSighting(city,state).state<<", "
+                <<UFOTable.closestSighting(city,state).country<< "               \n";
                 break;
 
             case 2:
