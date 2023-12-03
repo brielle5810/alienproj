@@ -221,6 +221,18 @@ int main() {
                              << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
                     }
                 }
+                //Hashtable
+                cout<<"Using HashTable: "<<endl;
+                UFOTable.ListofSightings(state);
+                if (UFOTable.ListofSightings(state).empty()) {
+                    cout << "No sightings found in " << state << endl;
+                } else {
+                    for (const auto& sighting : UFOTable.ListofSightings(state)) {
+                        cout << "Sighting in " << sighting.city << ", " << state << " on "
+                             << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year
+                             << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
+                    }
+                }
                 break;
 
 
