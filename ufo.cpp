@@ -113,7 +113,6 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
                         sighting.minute = stoi(value);
                         sighting.date.minute=sighting.minute;
                     }
-
                     else if (key == "\"Documented Year\"") {
                         sighting.docyear = stoi(value);
                     } else if (key == "\"Documented Month\"") {

@@ -1,22 +1,8 @@
-//
-// Created by B on 12/1/2023.
-//
 #include <algorithm>
 #include "heap.h"
 
 
-void maxheap::heapifyUp(int ind){
-    while (ind > 0) {
-        int p = getParent(ind);
-        if (heap[p].date < heap[ind].date){
-            swap(heap[p], heap[ind]);
-            ind = p;
-        }
-        else {
-            break;
-        }
-    }
-}
+
 void maxheap::heapifyDown(int ind){
     int size = heap.size();
     while (ind < size){
@@ -47,8 +33,6 @@ void maxheap::maxHeapify(vector<UFOSighting> sightings){
 }
 
 
-
-
 UFOSighting maxheap::closestSighting(string city, string state){
     UFOSighting closestSightingCity = UFOSighting();
     closestSightingCity.city = "N/A";
@@ -69,34 +53,38 @@ UFOSighting maxheap::closestSighting(string city, string state){
     closestSightingState.date.day = INT_MIN;
     closestSightingState.date.hour = INT_MIN;
     closestSightingState.date.minute = INT_MIN;
-
-
-    for (UFOSighting& sighting : heap) {
-        // Check if the sighting is in the target city or state
-        if (sighting.city == city && sighting.state==state) {
-            if (closestSightingCity.date < sighting.date) {
-                closestSightingCity = sighting;
+    while (!heap.empty()) {
+        swap(heap[0], heap.back());
+        UFOSighting tempSighting = heap.back();
+        cout << tempSighting.city<<endl;
+        heap.pop_back();
+        if (tempSighting.city == city && tempSighting.state == state) {
+            if (closestSightingCity.date < tempSighting.date) {
+                closestSightingCity = tempSighting;
             }
         }
-        if (sighting.state == state && closestSightingState.date < sighting.date) {
-            closestSightingState = sighting;
+        if (tempSighting.state == state && closestSightingState.date < tempSighting.date) {
+            closestSightingState = tempSighting;
         }
+        heapifyDown(0);
     }
-    // If there is a sighting in the target city, return it; otherwise, return the most recent in the state
     if (closestSightingCity.city == city && closestSightingCity.state== state) {
         return closestSightingCity;
     } else {
         return closestSightingState;
     }
-
 }
 vector<UFOSighting> maxheap::stateList(string state){
     vector<UFOSighting> stateList;
-    for (UFOSighting& sighting : heap) {
-        if (sighting.state == state) {
-            stateList.push_back(sighting);
+    while (!heap.empty()) {
+        swap(heap[0], heap.back());
+        UFOSighting tempSighting = heap.back();
+        heap.pop_back();
+
+        if (tempSighting.state==state) {
+            stateList.push_back(tempSighting);
         }
+        heapifyDown(0);
     }
-    sort(stateList.begin(), stateList.end());
     return stateList;
 }

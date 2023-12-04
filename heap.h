@@ -15,8 +15,8 @@ private:
     int getRight(int ind) { return (2 * ind + 2); }
 
 public:
+    int getsize(){return heap.size();}
     UFOSighting getMax() { return heap[0]; }
-    void heapifyUp(int ind);
     void heapifyDown(int ind);
     void maxHeapify(vector<UFOSighting> sightings);
     UFOSighting closestSighting(string city, string state);
