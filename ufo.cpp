@@ -77,10 +77,12 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
                     string value = line.substr(colonPos + 1);
                     //remove spaces
                     key.erase(remove_if(key.begin(), key.end(), ::isspace), key.end());
-                    value.erase(remove_if(value.begin(), value.end(), ::isspace), value.end());
+                    if (key!="\"City\""){ //ignore for cities-> some have spaces "San Diego"
+                        value.erase(remove_if(value.begin(), value.end(), ::isspace), value.end());
+                    }
                     //assign all values
                     if (key == "\"City\"") {
-                        sighting.city = value.substr(1, value.size() - 3);
+                        sighting.city =  value.substr(2, value.size() - 4);
                     } else if (key == "\"State\"") {
                         sighting.state = value.substr(1, value.size() - 3);
                     } else if (key == "\"Country\"") {

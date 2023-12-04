@@ -5,12 +5,14 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+//include "cmake-build-debug/.cmake/crow_all.h"
 #include "heap.h"
 #include <unordered_map>
 #include <unordered_set>
 #include "RedBlackTree.h"
-#include "hashtable.h"
 using namespace std;
+#include "hashtable.h"
+
 
 int main() {
     string city, state;
@@ -57,7 +59,6 @@ int main() {
 
     RedBlackTree UFOTree;
     for (const auto& sighting : sightings) {
-
         UFOTree.insert(sighting);
     }
     
@@ -96,7 +97,7 @@ int main() {
                 //to implement next: CHECK FOR NEWLINE CHARS FOR CITY/STATE
                 cout << "  Enter city: ";
                 cin >> city;
-
+                city = (char)tolower(city[0]) + city.substr(1); //accept Chicago as chicago (how json is stored)
                 //CHECK VALID STATE
                 cout << "  Enter a state or state abbreviation: ";
 
@@ -160,11 +161,18 @@ int main() {
                 //case 2 functionality
                 cout << "  The most recent UFO sighting was on:               \n";
                 //HEAP
+                string tempCity= (char) toupper(UFOHeap.getMax().city[0])+UFOHeap.getMax().city.substr(1);
+
+                for (int i = 1; i < tempCity.size(); i++) {
+                    if (isspace(tempCity[i - 1])) {
+                        tempCity[i] = toupper(tempCity[i]);
+                    }
+                }
 
                 cout << "  Using a MaxHeap:                                   \n";
                 cout << "  " << UFOHeap.getMax().date.month << "/" << UFOHeap.getMax().date.day << "/"
                      << UFOHeap.getMax().date.year << " at " << UFOHeap.getMax().date.hour << ":"
-                     << UFOHeap.getMax().date.minute << " in " << UFOHeap.getMax().city << ", "
+                     << UFOHeap.getMax().date.minute << " in " << tempCity << ", "
                      << UFOHeap.getMax().state << ", " << UFOHeap.getMax().country << "              \n";
 
                 cout << "Using a RedBlackTree:                                \n";
@@ -203,8 +211,16 @@ int main() {
                 cout << "  The UFO sightings in " << state << " are:              \n";
                 cout << "  Using a MaxHeap:                                   \n";
                 for (auto &sighting : UFOHeap.stateList(state)) {
+                    string tempCity= (char) toupper(city[0])+sighting.city.substr(1);
+
+                    for (int i = 1; i < tempCity.size(); i++) {
+                        if (isspace(tempCity[i - 1])) {
+                            tempCity[i] = toupper(tempCity[i]);
+                        }
+                    }
+
                     cout << "  " << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year << " at "
-                         << sighting.date.hour << ":" << sighting.date.minute << " in " << sighting.city << ", "
+                         << sighting.date.hour << ":" << sighting.date.minute << " in " << tempCity << ", "
                          << sighting.state << ", " << sighting.country << "              \n";
                 }
 
@@ -215,7 +231,14 @@ int main() {
                     cout << "No sightings found in " << state << endl;
                 } else {
                     for (const auto& sighting : UFOTree.sightingsInState(state)) {
-                        cout << "Sighting in " << sighting.city << ", " << state << " on "
+                        string tempCity= (char)toupper(sighting.city[0])+sighting.city.substr(1);
+
+                        for (int i = 1; i < tempCity.size(); i++) {
+                            if (isspace(tempCity[i - 1])) {
+                                tempCity[i] = toupper(tempCity[i]);
+                            }
+                        }
+                        cout << "Sighting in " << tempCity << ", " << state << " on "
                              << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year
                              << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
                     }
