@@ -51,7 +51,7 @@ int main() {
             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
     };
     vector<UFOSighting> sightings= parseJSON("ufo_sightings.json");
-
+    string temp2="";
 
     maxheap UFOHeap;
     UFOHeap.maxHeapify(sightings);
@@ -127,12 +127,18 @@ int main() {
                 }
                 else {
                     UFOSighting heapObj = UFOHeap.closestSighting(city, state);
+                    tempCity = (char) toupper(heapObj.city[0]) + heapObj.city.substr(1);
+                    for (int i = 1; i < tempCity.size(); i++) {
+                        if (isspace(tempCity[i - 1])) {
+                            tempCity[i] = toupper(tempCity[i]);
+                        }
+                    }
                     cout << "  " << heapObj.date.month << "/"
                          << heapObj.date.day << "/"
                          << heapObj.date.year << " at "
                          << heapObj.date.hour << ":"
                          << heapObj.date.minute << " in "
-                         << heapObj.city << ", " << heapObj.state
+                         << tempCity << ", " << heapObj.state
                          << ", " << heapObj.country << "              \n";
                     UFOHeap.maxHeapify(sightings);
                 }
@@ -142,20 +148,31 @@ int main() {
                 if(UFOTree.closestSighting(city,state).date.year == 0){
                     break;
                 }
-                cout << "  " << UFOTree.closestSighting(city,state).date.month << "/" << UFOTree.closestSighting(city,state).date.day << "/" << UFOTree.closestSighting(city, state).date.year << " at " << UFOTree.closestSighting(city, state).date.hour << ":" << UFOTree.closestSighting(city, state).date.minute << " in " << UFOTree.closestSighting(city, state).city << ", " << UFOTree.closestSighting(city, state).state << ", " << UFOTree.closestSighting(city, state).country << "               \n";
-                // hashtable 
-                
+                tempCity = (char) toupper(UFOTree.closestSighting(city,state).city[0]) + UFOTree.closestSighting(city,state).city.substr(1);
+                for (int i = 1; i < tempCity.size(); i++) {
+                    if (isspace(tempCity[i - 1])) {
+                        tempCity[i] = toupper(tempCity[i]);
+                    }
+                }
+                cout << "  " << UFOTree.closestSighting(city,state).date.month << "/" << UFOTree.closestSighting(city,state).date.day << "/" << UFOTree.closestSighting(city, state).date.year << " at " << UFOTree.closestSighting(city, state).date.hour << ":" << UFOTree.closestSighting(city, state).date.minute << " in " << tempCity << ", " << UFOTree.closestSighting(city, state).state << ", " << UFOTree.closestSighting(city, state).country << "               \n";
+                // hashtable
                 cout<<"  Using Hash Table: "<<endl;
                 UFOTable.closestSighting(city, state);
                 if(UFOTable.closestSighting(city, state).date.year == 0){
                     break;
+                }
+                tempCity = (char) toupper(UFOTable.closestSighting(city,state).city[0]) +UFOTable.closestSighting(city,state).city.substr(1);
+                for (int i = 1; i < tempCity.size(); i++) {
+                    if (isspace(tempCity[i - 1])) {
+                        tempCity[i] = toupper(tempCity[i]);
+                    }
                 }
                 cout<<"  "<< UFOTable.closestSighting(city, state).date.month<<"/"
                 <<UFOTable.closestSighting(city,state).date.day<<"/"
                 <<UFOTable.closestSighting(city,state).date.year<<" at "
                 <<UFOTable.closestSighting(city,state).date.hour<<":"
                 <<UFOTable.closestSighting(city,state).date.minute<<" in "
-                <<UFOTable.closestSighting(city,state).city<<", "
+                <<tempCity<<", "
                 <<UFOTable.closestSighting(city,state).state<<", "
                 <<UFOTable.closestSighting(city,state).country<< "               \n";
                 break;
@@ -188,15 +205,6 @@ int main() {
 
                 // Hashtable
                 cout<<"  Using HashTable: "<<endl;
-                tempCity= UFOTable.mostRecent().city;
-                if (!tempCity.empty()) {
-                    tempCity[0] = toupper(tempCity[0]);
-                    for (int i = 1; i < tempCity.size(); i++) {
-                        if (isspace(tempCity[i - 1])) {
-                            tempCity[i] = toupper(tempCity[i]);
-                        }
-                    }
-                }
                 cout << "  " << UFOTable.mostRecent().date.month << "/" << UFOTable.mostRecent().date.day
                 << "/" << UFOTable.mostRecent().date.year << " at " << UFOTable.mostRecent().date.hour
                 << ":" << UFOTable.mostRecent().date.minute << " in " << tempCity << ", "

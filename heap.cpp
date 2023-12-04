@@ -79,7 +79,6 @@ vector<UFOSighting> maxheap::stateList(string state){
         swap(heap[0], heap.back());
         UFOSighting tempSighting = heap.back();
         heap.pop_back();
-
         if (tempSighting.state==state) {
             stateList.push_back(tempSighting);
         }

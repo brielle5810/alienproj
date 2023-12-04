@@ -128,7 +128,7 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
     }
 
     file.close();
-    //test that it works
+//    //test that it works
 //    for (int i=0;i<10;i++){
 //        cout <<i + 1<<". "<< sightings[i].city << " at "<< sightings[i].date.month<<"/"<<sightings[i].date.day<<"/"<<sightings[i].date.year<<endl;
 //        cout<<"At time: "<< sightings[i].date.hour<<":"<<sightings[i].date.minute<<endl;
