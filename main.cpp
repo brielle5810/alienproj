@@ -5,7 +5,6 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
-//include "cmake-build-debug/.cmake/crow_all.h"
 #include "heap.h"
 #include <unordered_map>
 #include <unordered_set>
@@ -64,10 +63,8 @@ int main() {
     
     Hash UFOTable;
     for (const auto& sighting : sightings) {
-
         UFOTable.insert(sighting);
     }
-
 
     //printMenuBorder();
     while (true) {
@@ -82,7 +79,6 @@ int main() {
         cout << "  |   4. Quit                                              |\n";
         cout << "  +--------------------------------------------------------+\n";
         cout << "  Enter your choice (1-4): ";
-        //cin >> choice;
 
         if (!(cin >> choice) || choice > 4 || choice < 1){
             // clear cin and ignore choice
@@ -91,17 +87,20 @@ int main() {
             cout << "  Invalid input. Please enter a number between 1 and 4.\n";
             continue; //start over
         }
-
+        string tempCity;
         switch (choice) {
             case 1:
                 //to implement next: CHECK FOR NEWLINE CHARS FOR CITY/STATE
                 cout << "  Enter city: ";
-                cin >> city;
-                city = (char)tolower(city[0]) + city.substr(1); //accept Chicago as chicago (how json is stored)
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::getline(std::cin, city);
+                for (char& i : city) {//accept Chicago as chicago (how json is stored)
+                    i = (char) tolower(i);
+                }
                 //CHECK VALID STATE
                 cout << "  Enter a state or state abbreviation: ";
-
-                cin >> state;
+                getline(std::cin, state);
                 while (true) {
                     if ((stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) &&
                         state.length() > 0) {
@@ -114,7 +113,7 @@ int main() {
                         cin.clear();
                         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     }
-                    cin >> state;
+                    getline(std::cin, state);
                 }
 
                 //case 1 functionality
@@ -124,7 +123,6 @@ int main() {
                 if (UFOHeap.closestSighting(city, state).date.year == 0) {
                     break;
                 }
-
                 cout << "  " << UFOHeap.closestSighting(city, state).date.month << "/"
                      << UFOHeap.closestSighting(city, state).date.day << "/"
                      << UFOHeap.closestSighting(city, state).date.year << " at "
@@ -142,14 +140,14 @@ int main() {
                 cout << "  " << UFOTree.closestSighting(city,state).date.month << "/" << UFOTree.closestSighting(city,state).date.day << "/" << UFOTree.closestSighting(city, state).date.year << " at " << UFOTree.closestSighting(city, state).date.hour << ":" << UFOTree.closestSighting(city, state).date.minute << " in " << UFOTree.closestSighting(city, state).city << ", " << UFOTree.closestSighting(city, state).state << ", " << UFOTree.closestSighting(city, state).country << "               \n";
                 // hashtable 
                 
-                cout<<"Using Hash Table: "<<endl;
+                cout<<"  Using Hash Table: "<<endl;
                 UFOTable.closestSighting(city, state);
                 if(UFOTable.closestSighting(city, state).date.year == 0){
                     break;
                 }
-                cout<<" "<< UFOTable.closestSighting(city, state).date.month<<"/"
+                cout<<"  "<< UFOTable.closestSighting(city, state).date.month<<"/"
                 <<UFOTable.closestSighting(city,state).date.day<<"/"
-                <<UFOTable.closestSighting(city,state).date.year<<" at"
+                <<UFOTable.closestSighting(city,state).date.year<<" at "
                 <<UFOTable.closestSighting(city,state).date.hour<<":"
                 <<UFOTable.closestSighting(city,state).date.minute<<" in "
                 <<UFOTable.closestSighting(city,state).city<<", "
@@ -161,36 +159,50 @@ int main() {
                 //case 2 functionality
                 cout << "  The most recent UFO sighting was on:               \n";
                 //HEAP
-                string tempCity= (char) toupper(UFOHeap.getMax().city[0])+UFOHeap.getMax().city.substr(1);
-
+                cout << "  Using a MaxHeap:                                   \n";
+                tempCity= (char) toupper(UFOHeap.getMax().city[0])+UFOHeap.getMax().city.substr(1);
                 for (int i = 1; i < tempCity.size(); i++) {
                     if (isspace(tempCity[i - 1])) {
                         tempCity[i] = toupper(tempCity[i]);
                     }
                 }
-
-                cout << "  Using a MaxHeap:                                   \n";
                 cout << "  " << UFOHeap.getMax().date.month << "/" << UFOHeap.getMax().date.day << "/"
                      << UFOHeap.getMax().date.year << " at " << UFOHeap.getMax().date.hour << ":"
                      << UFOHeap.getMax().date.minute << " in " << tempCity << ", "
                      << UFOHeap.getMax().state << ", " << UFOHeap.getMax().country << "              \n";
 
+                //REDBLACKTREE
                 cout << "Using a RedBlackTree:                                \n";
-                cout << "  " << UFOTree.mostRecentSighting().date.month << "/" << UFOTree.mostRecentSighting().date.day << "/" << UFOTree.mostRecentSighting().date.year << " at " << UFOTree.mostRecentSighting().date.hour << ":" << UFOTree.mostRecentSighting().date.minute << " in " << UFOTree.mostRecentSighting().city << ", " << UFOTree.mostRecentSighting().state << ", " << UFOTree.mostRecentSighting().country << "              \n";
-                // Hashtable 
+                tempCity = (char) toupper(UFOTree.mostRecentSighting().city[0])+ UFOTree.mostRecentSighting().city.substr(1);
+                for (int i = 1; i < tempCity.size(); i++) {
+                    if (isspace(tempCity[i - 1])) {
+                        tempCity[i] = toupper(tempCity[i]);
+                    }
+                }
+                cout << "  " << UFOTree.mostRecentSighting().date.month << "/" << UFOTree.mostRecentSighting().date.day << "/" << UFOTree.mostRecentSighting().date.year << " at " << UFOTree.mostRecentSighting().date.hour << ":" << UFOTree.mostRecentSighting().date.minute << " in " << tempCity << ", " << UFOTree.mostRecentSighting().state << ", " << UFOTree.mostRecentSighting().country << "              \n";
+
+                // Hashtable
                 cout<<"Using HashTable: "<<endl;
-                
-                 cout << "  " << UFOTable.mostRecent().date.month << "/" << UFOTable.mostRecent().date.day
+                tempCity=(char)toupper(UFOTable.mostRecent().city[0]) + UFOTable.mostRecent().city.substr(1);
+                for (int i = 1; i < tempCity.size(); i++) {
+                    if (isspace(tempCity[i - 1])) {
+                        tempCity[i] = toupper(tempCity[i]);
+                    }
+                }
+                cout << "  " << UFOTable.mostRecent().date.month << "/" << UFOTable.mostRecent().date.day
                 << "/" << UFOTable.mostRecent().date.year << " at " << UFOTable.mostRecent().date.hour
-                << ":" << UFOTable.mostRecent().date.minute << " in " << UFOTable.mostRecent().city << ", "
+                << ":" << UFOTable.mostRecent().date.minute << " in " << tempCity << ", "
                 << UFOTable.mostRecent().state << ", " << UFOTable.mostRecent().country << "              \n";
-                    
+
                 break;
 
             case 3:
 
                 cout << "  Enter a state or state abbreviation: ";
-                cin >> state;
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                getline(std::cin, state);
+
                 while (true) {
                     if ((stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) &&
                         state.length() > 0) {
@@ -198,12 +210,13 @@ int main() {
                             state = stateMap[state];
                         }
                         break;
-                    } else {
+                    }
+                    else {
                         cout << "  Invalid state. Please enter a valid state or state abbreviation.\n";
                         cin.clear();
                         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     }
-                    cin >> state;
+                    getline(std::cin, state);
                 }
                 //case 3 functionality
 
@@ -211,46 +224,48 @@ int main() {
                 cout << "  The UFO sightings in " << state << " are:              \n";
                 cout << "  Using a MaxHeap:                                   \n";
                 for (auto &sighting : UFOHeap.stateList(state)) {
-                    string tempCity= (char) toupper(city[0])+sighting.city.substr(1);
-
+                    tempCity= (char) toupper(sighting.city[0])+sighting.city.substr(1);
                     for (int i = 1; i < tempCity.size(); i++) {
                         if (isspace(tempCity[i - 1])) {
                             tempCity[i] = toupper(tempCity[i]);
                         }
                     }
-
                     cout << "  " << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year << " at "
                          << sighting.date.hour << ":" << sighting.date.minute << " in " << tempCity << ", "
                          << sighting.state << ", " << sighting.country << "              \n";
                 }
-
                 //REDBLACKTREE
                 cout << "  Using a RedBlackTree:                                   \n";
                 UFOTree.sightingsInState(state);
                 if (UFOTree.sightingsInState(state).empty()) {
-                    cout << "No sightings found in " << state << endl;
+                    cout << "  No sightings found in " << state << endl;
                 } else {
                     for (const auto& sighting : UFOTree.sightingsInState(state)) {
-                        string tempCity= (char)toupper(sighting.city[0])+sighting.city.substr(1);
-
+                        tempCity= (char)toupper(sighting.city[0])+sighting.city.substr(1);
+                        for (int i = 1; i < tempCity.size(); i++) {
+                            if (isspace(tempCity[i - 1])) {
+                                tempCity[i] = toupper(tempCity[i]);
+                            }
+                        }
+                        cout << "  Sighting in " << tempCity << ", " << state << " on "
+                             << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year
+                             << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
+                    }
+                }
+                //Hashtable
+                cout<<"  Using HashTable: "<<endl;
+                UFOTable.ListofSightings(state);
+                if (UFOTable.ListofSightings(state).empty()) {
+                    cout << "  No sightings found in " << state << endl;
+                } else {
+                    for (const auto& sighting : UFOTable.ListofSightings(state)) {
+                        tempCity = (char) toupper(sighting.city[0]) + sighting.city.substr(1);
                         for (int i = 1; i < tempCity.size(); i++) {
                             if (isspace(tempCity[i - 1])) {
                                 tempCity[i] = toupper(tempCity[i]);
                             }
                         }
                         cout << "Sighting in " << tempCity << ", " << state << " on "
-                             << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year
-                             << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
-                    }
-                }
-                //Hashtable
-                cout<<"Using HashTable: "<<endl;
-                UFOTable.ListofSightings(state);
-                if (UFOTable.ListofSightings(state).empty()) {
-                    cout << "No sightings found in " << state << endl;
-                } else {
-                    for (const auto& sighting : UFOTable.ListofSightings(state)) {
-                        cout << "Sighting in " << sighting.city << ", " << state << " on "
                              << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year
                              << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
                     }

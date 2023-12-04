@@ -90,24 +90,27 @@ public:
         UFOSighting closestInState;
 
         for(auto &i :hashTable){
-            for(auto &node :i ){
+            for(auto &node : i ){
                 if(node->sighting.city == city && node->sighting.state == state){
-                    if(closest.city!="NULL" && closest.date < node->sighting.date) {
+                    if (closest.city!="NULL" && closest.date < node->sighting.date) {
                         closest = node->sighting;
                     }
+                    else if (closest.city=="NULL"){
                         closest = node->sighting;
+                    }
                 }
                 else if(node->sighting.state == state){
                     if(closestInState.state!="NULL" && closestInState.date< node->sighting.date){
                         closestInState = node->sighting;
                     }
-                    closestInState = node->sighting;
+                    else if (closestInState.state=="NULL"){
+                        closestInState = node->sighting;
+                    }
                 }
             }
         }
         if(closest.city!="NULL"){
-            return closest;
-        }
+            return closest;}
         else{
             return closestInState;
         }

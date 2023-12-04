@@ -73,7 +73,7 @@ UFOSighting maxheap::closestSighting(string city, string state){
 
     for (UFOSighting& sighting : heap) {
         // Check if the sighting is in the target city or state
-        if (sighting.city == city) {
+        if (sighting.city == city && sighting.state==state) {
             if (closestSightingCity.date < sighting.date) {
                 closestSightingCity = sighting;
             }
