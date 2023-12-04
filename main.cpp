@@ -5,12 +5,12 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
-using namespace std;
 #include "heap.h"
 #include <unordered_map>
 #include <unordered_set>
 #include "RedBlackTree.h"
 #include "hashtable.h"
+using namespace std;
 
 int main() {
     string city, state;

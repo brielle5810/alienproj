@@ -1,6 +1,6 @@
-#pragma once;
+#pragma once
 #include <iostream>
-#include "vector"
+#include <vector>
 #include "ufo.h"
 using namespace std;
 
