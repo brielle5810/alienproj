@@ -32,8 +32,6 @@ enum Color{RED, BLACK};
 
 struct Node{
     UFOSighting sighting;
-    //string ufo;
-    //int data;
     bool color;
     Node* left;
     Node* right;
@@ -48,8 +46,7 @@ private:
     void rotateRight(Node *&);
     void fixInsertion(Node *&);
     Node* insertHelp(Node *&, Node*&);
-    void inorderHelper(Node *&, vector<UFOSighting>&) const;
-    void closestSightingByStateHelper(Node *node, const string &state, UFOSighting &closest) const;
+    void closestSightingByStateHelper(Node *node, const string &state, const string &city, UFOSighting &closest) const;
     Node* mostRecentSightingHelper(Node *) const;
     void sightingsInStateHelper(Node *, const string &, vector<UFOSighting> &) const;
 
@@ -241,19 +238,28 @@ UFOSighting RedBlackTree::closestSighting(string &city, string &state) {
     UFOSighting closest;
     closest.date.year = 0;  // Initialize with a default value indicating no sighting found yet
 
-    closestSightingByStateHelper(root, state, closest);
+    closestSightingByStateHelper(root, state, city, closest);
     return closest;
 }
 
-void RedBlackTree::closestSightingByStateHelper(Node *node, const string &state, UFOSighting &closest) const {
+void RedBlackTree::closestSightingByStateHelper(Node *node, const string &state, const string &city, UFOSighting &closest) const {
     if (node == nullptr) return;
 
     // Check if the node's sighting is in the target state and more recent than the current closest
-    if (node->sighting.state == state && (closest.date.year == 0 || node->sighting.date > closest.date)) {
-        closest = node->sighting;
+    if (node->sighting.state == state && node->sighting.city == city ) {
+        if (closest.date.year == 0 || node->sighting.date > closest.date) {
+            closest = node->sighting;
+        }
+    }
+        // If no sighting found in the specified city, check for the closest sighting in the state
+    else if (node->sighting.state == state) {
+        if (closest.city != city && (closest.date.year == 0 || node->sighting.date > closest.date)) {
+            closest = node->sighting;
+        }
     }
 
     // Recursively check the left and right subtrees
-    closestSightingByStateHelper(node->left, state, closest);
-    closestSightingByStateHelper(node->right, state, closest);
+    closestSightingByStateHelper(node->left, state, city, closest);
+    closestSightingByStateHelper(node->right, state, city, closest);
 }
+
