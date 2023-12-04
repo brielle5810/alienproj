@@ -56,7 +56,6 @@ UFOSighting maxheap::closestSighting(string city, string state){
     while (!heap.empty()) {
         swap(heap[0], heap.back());
         UFOSighting tempSighting = heap.back();
-        cout << tempSighting.city<<endl;
         heap.pop_back();
         if (tempSighting.city == city && tempSighting.state == state) {
             if (closestSightingCity.date < tempSighting.date) {

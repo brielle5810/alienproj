@@ -177,8 +177,8 @@ int main() {
                      << UFOHeap.getMax().state << ", " << UFOHeap.getMax().country << "              \n";
 
                 //REDBLACKTREE
-                cout << "Using a RedBlackTree:                                \n";
-                tempCity = (char) toupper(UFOTree.mostRecentSighting().city[0])+ UFOTree.mostRecentSighting().city.substr(1);
+                cout << "  Using a RedBlackTree:                                \n";
+                tempCity = (char) toupper(UFOTree.mostRecentSighting().city[0]) + UFOTree.mostRecentSighting().city.substr(1);
                 for (int i = 1; i < tempCity.size(); i++) {
                     if (isspace(tempCity[i - 1])) {
                         tempCity[i] = toupper(tempCity[i]);
@@ -187,18 +187,20 @@ int main() {
                 cout << "  " << UFOTree.mostRecentSighting().date.month << "/" << UFOTree.mostRecentSighting().date.day << "/" << UFOTree.mostRecentSighting().date.year << " at " << UFOTree.mostRecentSighting().date.hour << ":" << UFOTree.mostRecentSighting().date.minute << " in " << tempCity << ", " << UFOTree.mostRecentSighting().state << ", " << UFOTree.mostRecentSighting().country << "              \n";
 
                 // Hashtable
-                cout<<"Using HashTable: "<<endl;
-                tempCity=(char)toupper(UFOTable.mostRecent().city[0]) + UFOTable.mostRecent().city.substr(1);
-                for (int i = 1; i < tempCity.size(); i++) {
-                    if (isspace(tempCity[i - 1])) {
-                        tempCity[i] = toupper(tempCity[i]);
+                cout<<"  Using HashTable: "<<endl;
+                tempCity= UFOTable.mostRecent().city;
+                if (!tempCity.empty()) {
+                    tempCity[0] = toupper(tempCity[0]);
+                    for (int i = 1; i < tempCity.size(); i++) {
+                        if (isspace(tempCity[i - 1])) {
+                            tempCity[i] = toupper(tempCity[i]);
+                        }
                     }
                 }
                 cout << "  " << UFOTable.mostRecent().date.month << "/" << UFOTable.mostRecent().date.day
                 << "/" << UFOTable.mostRecent().date.year << " at " << UFOTable.mostRecent().date.hour
                 << ":" << UFOTable.mostRecent().date.minute << " in " << tempCity << ", "
                 << UFOTable.mostRecent().state << ", " << UFOTable.mostRecent().country << "              \n";
-
                 break;
 
             case 3:
@@ -227,7 +229,9 @@ int main() {
 
                 //HEAP
                 cout << "  The UFO sightings in " << state << " are:              \n";
-                cout << "  Using a MaxHeap:                                   \n";
+                cout << "  +--------------------------------------------------------+\n";
+                cout << "  |                     Using MaxHeap                      |\n";
+                cout << "  +--------------------------------------------------------+\n";
                 for (auto &sighting : UFOHeap.stateList(state)) {
                     tempCity= (char) toupper(sighting.city[0])+sighting.city.substr(1);
                     for (int i = 1; i < tempCity.size(); i++) {
@@ -235,13 +239,15 @@ int main() {
                             tempCity[i] = toupper(tempCity[i]);
                         }
                     }
-                    cout << "  " << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year << " at "
-                         << sighting.date.hour << ":" << sighting.date.minute << " in " << tempCity << ", "
-                         << sighting.state << ", " << sighting.country << "              \n";
+                    cout << "  Sighting in " << tempCity << ", " << state << " on "
+                         << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year
+                         << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
                 }
                 UFOHeap.maxHeapify(sightings);
                 //REDBLACKTREE
-                cout << "  Using a RedBlackTree:                                   \n";
+                cout << "  +--------------------------------------------------------+\n";
+                cout << "  |                 Using RedBlackTree                     |\n";
+                cout << "  +--------------------------------------------------------+\n";
                 UFOTree.sightingsInState(state);
                 if (UFOTree.sightingsInState(state).empty()) {
                     cout << "  No sightings found in " << state << endl;
@@ -259,7 +265,9 @@ int main() {
                     }
                 }
                 //Hashtable
-                cout<<"  Using HashTable: "<<endl;
+                cout << "  +--------------------------------------------------------+\n";
+                cout << "  |                    Using HashTable                     |\n";
+                cout << "  +--------------------------------------------------------+\n";
                 UFOTable.ListofSightings(state);
                 if (UFOTable.ListofSightings(state).empty()) {
                     cout << "  No sightings found in " << state << endl;
@@ -271,7 +279,7 @@ int main() {
                                 tempCity[i] = toupper(tempCity[i]);
                             }
                         }
-                        cout << "Sighting in " << tempCity << ", " << state << " on "
+                        cout << "  Sighting in " << tempCity << ", " << state << " on "
                              << sighting.date.month << "/" << sighting.date.day << "/" << sighting.date.year
                              << " at " << sighting.date.hour << ":" << sighting.date.minute << endl;
                     }
