@@ -1,3 +1,0 @@
-C:/Users/briel/alienproj/cmake-build-default/CMakeFiles/alienproj.dir
-C:/Users/briel/alienproj/cmake-build-default/CMakeFiles/edit_cache.dir
-C:/Users/briel/alienproj/cmake-build-default/CMakeFiles/rebuild_cache.dir
