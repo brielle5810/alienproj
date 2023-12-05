@@ -8,6 +8,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 struct Date {
@@ -49,29 +51,12 @@ struct UFOSighting {
     bool operator<(const UFOSighting& rhs) const {
         return date < rhs.date;
     }
-
-    /*"Dates": {
-      "Sighted": {
-        "Year": 2010,
-        "Month": 5,
-        "Hour": 2,
-        "Minute": 0
-      },
-      "Documented": {
-        "Year": 2010,
-        "Month": 6,
-        "Day": 3
-      }
-    },
-    "Date": {
-      "Sighted": {
-        "Day": 23
-      }
-    }
-     *
-     */
 };
 
 vector<UFOSighting> parseJSON(const string& jsonFileName);
+vector<UFOSighting> fauxPoints();
+
+string getRand();
+
 
 #endif //SIGHITNG_UFO_H
