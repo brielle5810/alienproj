@@ -162,11 +162,6 @@ int main() {
                     break;
                 }
                 tempCity = (char) toupper(UFOTable.closestSighting(city,state).city[0]) +UFOTable.closestSighting(city,state).city.substr(1);
-//                for (int i = 1; i < tempCity.size(); i++) {
-//                    if (isspace(tempCity[i - 1])) {
-//                        tempCity[i] = toupper(tempCity[i]);
-//                    }
-//                }
                 cout<<"  "<< UFOTable.closestSighting(city, state).date.month<<"/"
                 <<UFOTable.closestSighting(city,state).date.day<<"/"
                 <<UFOTable.closestSighting(city,state).date.year<<" at "
