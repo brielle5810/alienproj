@@ -28,25 +28,13 @@ struct UFOSighting {
     string country;
     string city;
     string state;
-    string shape;
-    double latitude;
-    double longitude;
     int year;
     int month;
     int day;
-    string duration;
-    string description;
     bool operator<(UFOSighting& rhs);
-    int docyear;
-    int docmonth;
-    int docday;
     int hour;
     int minute;
     UFOSighting(); //default constructor
-    UFOSighting *parent;
-    UFOSighting *left;
-    UFOSighting *right;
-    int color;
     Date date;
     bool operator<(const UFOSighting& rhs) const {
         return date < rhs.date;
@@ -55,8 +43,5 @@ struct UFOSighting {
 
 vector<UFOSighting> parseJSON(const string& jsonFileName);
 vector<UFOSighting> fauxPoints();
-
-string getRand();
-
 
 #endif //SIGHITNG_UFO_H

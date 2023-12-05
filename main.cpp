@@ -9,8 +9,9 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "RedBlackTree.h"
-using namespace std;
 #include "hashtable.h"
+using namespace std;
+
 
 
 int main() {
@@ -56,18 +57,14 @@ int main() {
     maxheap UFOHeap;
     sightings.insert(sightings.end(), fakes.begin(), fakes.end());
     UFOHeap.maxHeapify(sightings);
-
     RedBlackTree UFOTree;
     for (const auto& sighting : sightings) {
         UFOTree.insert(sighting);
     }
-    
     Hash UFOTable;
     for (const auto& sighting : sightings) {
         UFOTable.insert(sighting);
     }
-
-
     //printMenuBorder();
     while (true) {
         choice = 0;
@@ -85,7 +82,7 @@ int main() {
         if (!(cin >> choice) || choice > 4 || choice < 1){
             // clear cin and ignore choice
             cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "  Invalid input. Please enter a number between 1 and 4.\n";
             continue; //start over
         }
@@ -95,14 +92,14 @@ int main() {
                 //to implement next: CHECK FOR NEWLINE CHARS FOR CITY/STATE
                 cout << "  Enter city: ";
                 cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, city);
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                getline(cin, city);
                 for (char& i : city) {//accept Chicago as chicago (how json is stored)
                     i = (char) tolower(i);
                 }
                 //CHECK VALID STATE
                 cout << "  Enter a state or state abbreviation: ";
-                getline(std::cin, state);
+                getline(cin, state);
                 while (true) {
                     if ((stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) &&
                         state.length() > 0) {
@@ -113,9 +110,9 @@ int main() {
                     } else {
                         cout << "  Invalid state. Please enter a valid state or state abbreviation.\n";
                         cin.clear();
-                        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     }
-                    getline(std::cin, state);
+                    getline(cin, state);
                 }
 
                 //case 1 functionality
@@ -125,7 +122,6 @@ int main() {
 
                 if (UFOHeap.getsize()<1){
                     cout << "  IMPROPER HEAP!";
-                    //UFOSighting heapObj = UFOHeap.closestSighting(city, state);
                 }
                 else {
                     UFOSighting heapObj = UFOHeap.closestSighting(city, state);
@@ -211,8 +207,8 @@ int main() {
 
                 cout << "  Enter a state or state abbreviation: ";
                 cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                getline(std::cin, state);
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                getline(cin, state);
 
                 while (true) {
                     if ((stateMap.find(state) != stateMap.end() || stateAbbrev.find(state) != stateAbbrev.end()) &&
@@ -225,9 +221,9 @@ int main() {
                     else {
                         cout << "  Invalid state. Please enter a valid state or state abbreviation.\n";
                         cin.clear();
-                        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     }
-                    getline(std::cin, state);
+                    getline(cin, state);
                 }
                 //case 3 functionality
 
@@ -298,7 +294,7 @@ int main() {
             default:
                 cout << "  Invalid choice. Please enter a number between 1 and 4.\n";
                 cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
 
         }

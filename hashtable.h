@@ -118,10 +118,10 @@ public:
     }
    UFOSighting mostRecent(){
         vector<UFOSighting> recents;
-        hashNode *mostRecent;
+        hashNode *mostRecent= nullptr;
         for(auto &vector : hashTable){
             for(auto& node : vector){
-                if(node->sighting.date > mostRecent->sighting.date){
+                if(mostRecent == nullptr || node->sighting.date > mostRecent->sighting.date){
                     mostRecent = node;
                 }
             }

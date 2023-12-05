@@ -7,6 +7,7 @@
 #include <string>
 #include <limits>
 #include <fstream>
+#include <random>
 #include <algorithm>
 #include <sstream>
 
@@ -87,16 +88,6 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
                         sighting.state = value.substr(1, value.size() - 3);
                     } else if (key == "\"Country\"") {
                         sighting.country = value.substr(1, value.size() - 3);
-                    } else if (key == "\"Latitude\"") {
-                        sighting.latitude = stod(value);
-                    } else if (key == "\"Longitude\"") {
-                        sighting.longitude = stod(value);
-                    } else if (key == "\"Shape\"") {
-                        sighting.shape = value.substr(1, value.size() - 3);
-                    } else if (key == "\"Encounter duration\"") {
-                        sighting.duration = stod(value);
-                    } else if (key == "\"Description excerpt\"") {
-                        sighting.description = value.substr(1, value.size() - 3);
                     } else if (key == "\"Year\"") {
                         sighting.year = stoi(value);
                         sighting.date.year=sighting.year;
@@ -113,13 +104,6 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
                         sighting.minute = stoi(value);
                         sighting.date.minute=sighting.minute;
                     }
-                    else if (key == "\"Documented Year\"") {
-                        sighting.docyear = stoi(value);
-                    } else if (key == "\"Documented Month\"") {
-                        sighting.docmonth = stoi(value);
-                    } else if (key == "\"Documented Day\"") {
-                        sighting.docday = stoi(value);
-                    }
                 }
             }
             //add to sighitngs vector
@@ -128,19 +112,15 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
     }
 
     file.close();
-//    //test that it works
-//    for (int i=0;i<10;i++){
-//        cout <<i + 1<<". "<< sightings[i].city << " at "<< sightings[i].date.month<<"/"<<sightings[i].date.day<<"/"<<sightings[i].date.year<<endl;
-//        cout<<"At time: "<< sightings[i].date.hour<<":"<<sightings[i].date.minute<<endl;
-//    }
     return sightings;
 }
-string getRand(vector<string>& vals) {
-    int index = rand() % vals.size();
+string getRand(vector<string>& vals, mt19937& rng) {
+    uniform_int_distribution<int> distribution(0, vals.size() - 1);
+    int index = distribution(rng);
     return vals[index];
 }
 
-UFOSighting genPoints(){
+UFOSighting genPoints(mt19937& rng){
     UFOSighting sighting;
     srand(time(nullptr));
     vector<string> cities = {"New York", "Los Angeles", "Chicago", "Key West", "Wellington","Key Largo","Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose",
@@ -153,13 +133,13 @@ UFOSighting genPoints(){
                                           "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
                                           "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
     sighting.country = "US";
-    sighting.city = getRand(cities);
-    sighting.state = getRand(states);
-    sighting.year = (rand() % 24) + 1990;
-    sighting.month = (rand() % 12) + 1;
-    sighting.day = (rand() % 28) + 1;
-    sighting.hour = (rand() % 24);
-    sighting.minute = (rand() % 60);
+    sighting.city = getRand(cities, rng);
+    sighting.state = getRand(states, rng);
+    sighting.year = uniform_int_distribution<int>(1990, 2013)(rng);
+    sighting.month = uniform_int_distribution<int>(1, 12)(rng);
+    sighting.day = uniform_int_distribution<int>(1, 28)(rng);
+    sighting.hour = uniform_int_distribution<int>(0, 23)(rng);
+    sighting.minute = uniform_int_distribution<int>(0, 59)(rng);
 
     sighting.date.year = sighting.year;
     sighting.date.month=sighting.month;
@@ -172,9 +152,10 @@ UFOSighting genPoints(){
 
 
 vector<UFOSighting> fauxPoints() { //generate points bc dataset itself is not large enough
+    mt19937 rng(static_cast<unsigned>(time(0)));
     vector<UFOSighting> fauxPointVect;
-    for (int i = 0; i < 20000; ++i) {
-        fauxPointVect.push_back(genPoints());
+    for (int i = 0; i < 20000; i++) {
+        fauxPointVect.push_back(genPoints(rng));
     }
     return fauxPointVect;
 }
