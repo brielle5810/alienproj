@@ -51,9 +51,10 @@ int main() {
             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
     };
     vector<UFOSighting> sightings= parseJSON("ufo_sightings.json");
-    string temp2="";
-
+    //generate and insert 20000 datapoints to meet the 100000 req
+    vector<UFOSighting> fakes=fauxPoints();
     maxheap UFOHeap;
+    sightings.insert(sightings.end(), fakes.begin(), fakes.end());
     UFOHeap.maxHeapify(sightings);
 
     RedBlackTree UFOTree;
@@ -65,6 +66,7 @@ int main() {
     for (const auto& sighting : sightings) {
         UFOTable.insert(sighting);
     }
+
 
     //printMenuBorder();
     while (true) {
