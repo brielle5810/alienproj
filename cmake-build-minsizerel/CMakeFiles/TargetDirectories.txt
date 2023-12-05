@@ -1,3 +1,0 @@
-C:/Users/briel/alienproj/cmake-build-minsizerel/CMakeFiles/alienproj.dir
-C:/Users/briel/alienproj/cmake-build-minsizerel/CMakeFiles/edit_cache.dir
-C:/Users/briel/alienproj/cmake-build-minsizerel/CMakeFiles/rebuild_cache.dir
