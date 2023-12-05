@@ -135,3 +135,46 @@ vector<UFOSighting> parseJSON(const string& jsonFileName) {
 //    }
     return sightings;
 }
+string getRand(vector<string>& vals) {
+    int index = rand() % vals.size();
+    return vals[index];
+}
+
+UFOSighting genPoints(){
+    UFOSighting sighting;
+    srand(time(nullptr));
+    vector<string> cities = {"New York", "Los Angeles", "Chicago", "Key West", "Wellington","Key Largo","Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose",
+                                          "Austin", "Jacksonville", "San Francisco", "Indianapolis", "Columbus", "Fort Worth", "Charlotte", "Seattle", "Denver", "El Paso",
+                                          "Detroit", "Washington", "Boston","Alpharetta","Jonesville","Micanopy","Gotham","Memphis", "Nashville", "Portland", "Oklahoma City", "Las Vegas", "Baltimore", "Louisville",
+                                          "Milwaukee", "Albuquerque", "Metropolis","Tucson", "Fresno", "Sacramento", "Kansas City", "Long Beach", "Mesa", "Atlanta", "Colorado Springs",
+                                          "Virginia Beach", "Raleigh", "Omaha", "Miami", "Oakland", "Minneapolis", "Tulsa", "Arlington", "Gainesville", "Wichita"};
+
+    vector<string> states = {"AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                                          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+                                          "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
+    sighting.country = "US";
+    sighting.city = getRand(cities);
+    sighting.state = getRand(states);
+    sighting.year = (rand() % 24) + 1990;
+    sighting.month = (rand() % 12) + 1;
+    sighting.day = (rand() % 28) + 1;
+    sighting.hour = (rand() % 24);
+    sighting.minute = (rand() % 60);
+
+    sighting.date.year = sighting.year;
+    sighting.date.month=sighting.month;
+    sighting.date.day=sighting.day;
+    sighting.date.hour=sighting.hour;
+    sighting.date.minute=sighting.minute;
+
+    return sighting;
+}
+
+
+vector<UFOSighting> fauxPoints() { //generate points bc dataset itself is not large enough
+    vector<UFOSighting> fauxPointVect;
+    for (int i = 0; i < 20000; ++i) {
+        fauxPointVect.push_back(genPoints());
+    }
+    return fauxPointVect;
+}
